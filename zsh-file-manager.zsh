@@ -62,38 +62,37 @@ EOF
 
 	# main loop
 	while :; do
-		local fzf_args=(
-			+m
-			--ansi
-			--reverse
-			--nth=9
-			--height=60%
-			--border=top
-			--border-label="| $PWD |"
-			--preview=" if [ -f {$ops} ]; then $cat_file {$ops}; else $ls_dir {$ops}; fi "
-			--preview-window="$(cat $TMP_PREVIEW_WINDOW)"
-			--color='label:#5555FF:200'
+		local selected=$(eval "$ls_dir" | sed 1,2d | fzf \
+			+m \
+			--ansi \
+			--reverse \
+			--nth=9 \
+			--height=60% \
+			--border=top \
+			--border-label="| $PWD |" \
+			--preview=" if [ -f {$ops} ]; then $cat_file {$ops}; else $ls_dir {$ops}; fi " \
+			--preview-window="$(cat $TMP_PREVIEW_WINDOW)" \
+			--color='label:#5555FF:200' \
+      \
+			--bind='change:top' \
+			`# show "x -> y" for link file` \
+			--bind="focus:transform-preview-label( echo '|' \$( if [ ! -z {$(($ops + 1))} ]; then echo {$ops} {$(($ops + 1))} {$(($ops + 2))}; else echo {$ops}; fi ) '|' )" \
+			--bind="ctrl-s:change-preview-window(down)+execute(echo $PREVIEW_WINDOW_H>$TMP_PREVIEW_WINDOW)" \
+			--bind="ctrl-v:change-preview-window(right)+execute(echo $PREVIEW_WINDOW_V>$TMP_PREVIEW_WINDOW)" \
+			--bind='ctrl-u:preview-half-page-up' \
+			--bind='ctrl-d:preview-half-page-down' \
+			--bind='ctrl-f:abort' \
+			`# go to ..` \
+			--bind='ctrl-h:execute(echo "//BACK//")+abort' \
+			--bind='left:execute(echo "//BACK//")+abort' \
+			`# selected` \
+			--bind='ctrl-l:accept' \
+			--bind='right:accept' \
+      \
+			--bind='ctrl-z:ignore' \
+			--bind="?:preview(echo '$HELP')" \
+			--header='Press ? for help')
 
-			--bind='change:top'
-			# show "x -> y" for link file
-			--bind="focus:transform-preview-label( echo '|' \$( if [ ! -z {$(($ops + 1))} ]; then echo {$ops} {$(($ops + 1))} {$(($ops + 2))}; else echo {$ops}; fi ) '|' )"
-			--bind="ctrl-s:change-preview-window(down)+execute(echo $PREVIEW_WINDOW_H>$TMP_PREVIEW_WINDOW)"
-			--bind="ctrl-v:change-preview-window(right)+execute(echo $PREVIEW_WINDOW_V>$TMP_PREVIEW_WINDOW)"
-			--bind='ctrl-u:preview-half-page-up'
-			--bind='ctrl-d:preview-half-page-down'
-			--bind='ctrl-f:abort'
-			# go to ..
-			--bind='ctrl-h:execute(echo "//BACK//")+abort'
-			--bind='left:execute(echo "//BACK//")+abort'
-			# selected
-			--bind='ctrl-l:accept'
-			--bind='right:accept'
-
-			--bind='ctrl-z:ignore'
-			--bind="?:preview(echo '$HELP')"
-			--header='Press ? for help'
-		)
-		local selected=$(eval "$ls_dir" | sed 1,2d | fzf "${fzf_args[@]}")
 		dbg "selected: $selected"
 
 		# quit
