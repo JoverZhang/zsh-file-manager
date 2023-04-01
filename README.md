@@ -1,5 +1,29 @@
 # Zsh-File-Manager
 
+If you want to wander between various directories, then this is what you need.
+
+[![asciicast](https://asciinema.org/a/572883.svg)](https://asciinema.org/a/572883)
+
+# Usage
+
+## Manual (Git Clone)
+
+1. Clone this repository somewhere on your machine. This guide will assume `~/.zsh/zsh-file-manager`.
+
+```sh
+git clone https://github.com/JoverZhang/zsh-file-manager ~/.zsh/zsh-file-manager
+```
+
+2. Add the following to your `.zshrc`:
+
+```sh
+source ~/.zsh/zsh-file-manager/zsh-file-manager.zsh
+```
+
+3. Start a new terminal session.
+
+Now. You can press `C-f` to activate the Zsh file manager
+
 ```
 Zsh-File-Manager Manual
 
@@ -28,29 +52,11 @@ If "exa" is not installed, it will use "ls" as a fallback.
 If "bat" is not installed, it will use "cat" as a fallback.
 ```
 
-[![asciicast](https://asciinema.org/a/572883.svg)](https://asciinema.org/a/572883)
+Focus on directory:
 
-![selected directory](https://raw.githubusercontent.com/JoverZhang/zsh-file-manager/resources/zsh-file-manager-1.png)
+![focus on directory](https://raw.githubusercontent.com/JoverZhang/zsh-file-manager/resources/zsh-file-manager-1.png)
 
-![selected file](https://raw.githubusercontent.com/JoverZhang/zsh-file-manager/resources/zsh-file-manager-2.png)
+Focus on file:
 
-# Usage
-
-## Manual (Git Clone)
-
-1. Clone this repository somewhere on your machine. This guide will assume `~/.zsh/zsh-file-manager`.
-
-```sh
-git clone https://github.com/JoverZhang/zsh-file-manager ~/.zsh/zsh-file-manager
-```
-
-2. Add the following to your `.zshrc`:
-
-```sh
-source ~/.zsh/zsh-file-manager/zsh-file-manager.zsh
-```
-
-3. Start a new terminal session.
-
-Now. You can press `C-f` to activate the Zsh file manager
+![focus on file](https://raw.githubusercontent.com/JoverZhang/zsh-file-manager/resources/zsh-file-manager-2.png)
 
