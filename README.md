@@ -28,6 +28,8 @@ If "exa" is not installed, it will use "ls" as a fallback.
 If "bat" is not installed, it will use "cat" as a fallback.
 ```
 
+[![asciicast](https://asciinema.org/a/572883.svg)](https://asciinema.org/a/572883)
+
 ![selected directory](https://raw.githubusercontent.com/JoverZhang/zsh-file-manager/resources/zsh-file-manager-1.png)
 
 ![selected file](https://raw.githubusercontent.com/JoverZhang/zsh-file-manager/resources/zsh-file-manager-2.png)
