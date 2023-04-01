@@ -3,7 +3,8 @@
 ```
 Zsh-File-Manager Manual
 
-Base on "zsh" using "fzf", the File-Manager is a lightweight tool that incorporates "exa" and "bat" for enhanced functionality.
+Base on "zsh" using "fzf", the File-Manager is a lightweight tool
+that incorporates "exa" and "bat" for enhanced functionality.
 
 Binding keys:
 
@@ -26,6 +27,10 @@ About fallback:
 If "exa" is not installed, it will use "ls" as a fallback.
 If "bat" is not installed, it will use "cat" as a fallback.
 ```
+
+![selected directory](https://raw.githubusercontent.com/JoverZhang/zsh-file-manager/resources/zsh-file-manager-1.png)
+
+![selected file](https://raw.githubusercontent.com/JoverZhang/zsh-file-manager/resources/zsh-file-manager-2.png)
 
 # Usage
 
