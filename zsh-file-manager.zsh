@@ -27,14 +27,14 @@ If "exa" is not installed, it will use "ls" as a fallback.
 If "bat" is not installed, it will use "cat" as a fallback.
 EOF
 
-  # check fzf
-  if ! (command -v fzf &>/dev/null); then
-    echo 'file-manager: command not found "fzf". See "https://github.com/junegunn/fzf"'
-    BUFFER=""
-    zle accept-line
-    return 1
-  fi
-  local fzf_ver=$(fzf --version | awk -F'[. ]' '{ print $2 }')
+	# check fzf
+	if ! (command -v fzf &>/dev/null); then
+		echo 'file-manager: command not found "fzf". See "https://github.com/junegunn/fzf"'
+		BUFFER=""
+		zle accept-line
+		return 1
+	fi
+	local fzf_ver=$(fzf --version | awk -F'[. ]' '{ print $2 }')
 
 	setopt localoptions pipefail no_aliases 2>/dev/null
 
@@ -43,15 +43,16 @@ EOF
 	local ls_dir='exa -bglHh --all --all --color=always'
 	local cat_file='bat -pn --color=always'
 
-	# commands fallback
+	# exa fallback
 	if ! (command -v exa &>/dev/null); then
 		ls_dir="ls -al --color=yes"
 	fi
+	# bat fallback
 	if ! (command -v bat &>/dev/null); then
 		cat_file='batcat -pn --color=always'
-	fi
-	if ! (command -v batcat &>/dev/null); then
-		cat_file='cat'
+		if ! (command -v batcat &>/dev/null); then
+			cat_file='cat'
+		fi
 	fi
 
 	#tmp file
@@ -75,33 +76,33 @@ EOF
 	# main loop
 	while :; do
 
-    local border='--border=top'
-    local border_label="--border-label=| $PWD |"
+		local border='--border=top'
+		local border_label="--border-label=| $PWD |"
 		# show "x -> y" for link file
-    local bind_focus_transform_preview_label="--bind=focus:transform-preview-label( echo '|' \$( if [ ! -z {$(($ops + 1))} ]; then echo {$ops} {$(($ops + 1))} {$(($ops + 2))}; else echo {$ops}; fi ) '|' )"
-    local color="--color=label:#5555FF:200"
-    local header="--header=Press ? for help; [ $PWD ]"
+		local bind_focus_transform_preview_label="--bind=focus:transform-preview-label( echo '|' \$( if [ ! -z {$(($ops + 1))} ]; then echo {$ops} {$(($ops + 1))} {$(($ops + 2))}; else echo {$ops}; fi ) '|' )"
+		local color="--color=label:#5555FF:200"
+		local header="--header=Press ? for help; [ $PWD ]"
 		local ctrl_s_preview_window="--bind=ctrl-s:change-preview-window(down)+execute(echo $PREVIEW_WINDOW_H>$TMP_PREVIEW_WINDOW)"
 		local ctrl_v_preview_window="--bind=ctrl-v:change-preview-window(right)+execute(echo $PREVIEW_WINDOW_V>$TMP_PREVIEW_WINDOW)"
 		local ctrl_u_preview_page_up='--bind=ctrl-u:preview-half-page-up'
 		local ctrl_d_preview_page_down='--bind=ctrl-d:preview-half-page-down'
 		local q_help="--bind=?:preview(echo '$HELP')"
 
-    # old fzf
-    if (($fzf_ver < 30)); then
-      border_label=''
-      bind_focus_transform_preview_label=''
-      color=''
-    fi
-    if (($fzf_ver < 24)); then
-      border=''
-      ctrl_s_preview_window=''
-      ctrl_v_preview_window=''
-      ctrl_u_preview_page_up=''
-      ctrl_d_preview_page_down=''
-      q_help=''
-      header="--header=Recommanded upgrade 'fzf' to > 0.30; [ $PWD ]"
-    fi
+		# old fzf
+		if (($fzf_ver < 30)); then
+			border_label=''
+			bind_focus_transform_preview_label=''
+			color=''
+		fi
+		if (($fzf_ver < 24)); then
+			border=''
+			ctrl_s_preview_window=''
+			ctrl_v_preview_window=''
+			ctrl_u_preview_page_up=''
+			ctrl_d_preview_page_down=''
+			q_help=''
+			header="--header=Recommanded upgrade 'fzf' to > 0.30; [ $PWD ]"
+		fi
 
 		local fzf_args=(
 			+m
@@ -109,7 +110,7 @@ EOF
 			--reverse
 			--nth=9
 			--height=60%
-      $border
+			$border
 			$border_label
 
 			--preview=" if [ -f {$ops} ]; then $cat_file {$ops}; else $ls_dir {$ops}; fi "
@@ -120,8 +121,8 @@ EOF
 			$ctrl_s_preview_window
 			$ctrl_v_preview_window
 			$bind_focus_transform_preview_label
-      $ctrl_u_preview_page_up
-      $ctrl_d_preview_page_down
+			$ctrl_u_preview_page_up
+			$ctrl_d_preview_page_down
 			--bind='ctrl-f:abort'
 			# go to ..
 			--bind='ctrl-h:execute(echo "//BACK//")+abort'
@@ -131,7 +132,7 @@ EOF
 			--bind='right:accept'
 
 			--bind='ctrl-z:ignore'
-      $q_help
+			$q_help
 			$header
 		)
 		local selected=$(eval "$ls_dir" | sed 1,2d | fzf "${fzf_args[@]}")
@@ -174,4 +175,3 @@ EOF
 autoload -Uz file_manager
 zle -N file_manager
 bindkey '^F' file_manager
-
