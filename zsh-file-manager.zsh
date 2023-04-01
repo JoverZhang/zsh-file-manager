@@ -34,7 +34,7 @@ EOF
     zle accept-line
     return 1
   fi
-  local fzf_ver=$(fzf --version | awk -F. '{ print $2 }')
+  local fzf_ver=$(fzf --version | awk -F'[. ]' '{ print $2 }')
 
 	setopt localoptions pipefail no_aliases 2>/dev/null
 
