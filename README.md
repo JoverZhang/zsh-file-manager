@@ -51,3 +51,6 @@ source ~/.zsh/zsh-file-manager/zsh-file-manager.zsh
 ```
 
 3. Start a new terminal session.
+
+Now. You can press `C-f` to activate the Zsh file manager
+
