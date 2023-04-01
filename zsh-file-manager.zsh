@@ -48,6 +48,9 @@ EOF
 		ls_dir="ls -al --color=yes"
 	fi
 	if ! (command -v bat &>/dev/null); then
+		cat_file='batcat'
+	fi
+	if ! (command -v batcat &>/dev/null); then
 		cat_file='cat'
 	fi
 
