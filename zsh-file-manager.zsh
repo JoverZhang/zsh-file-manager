@@ -75,10 +75,17 @@ EOF
 	# main loop
 	while :; do
 
+    local border='--border=top'
     local border_label="--border-label=| $PWD |"
+		# show "x -> y" for link file
     local bind_focus_transform_preview_label="--bind=focus:transform-preview-label( echo '|' \$( if [ ! -z {$(($ops + 1))} ]; then echo {$ops} {$(($ops + 1))} {$(($ops + 2))}; else echo {$ops}; fi ) '|' )"
     local color="--color=label:#5555FF:200"
     local header='--header=Press ? for help'
+		local ctrl_s_preview_window="--bind=ctrl-s:change-preview-window(down)+execute(echo $PREVIEW_WINDOW_H>$TMP_PREVIEW_WINDOW)"
+		local ctrl_v_preview_window="--bind=ctrl-v:change-preview-window(right)+execute(echo $PREVIEW_WINDOW_V>$TMP_PREVIEW_WINDOW)"
+		local ctrl_u_preview_page_up='--bind=ctrl-u:preview-half-page-up'
+		local ctrl_d_preview_page_down='--bind=ctrl-d:preview-half-page-down'
+		local q_help="--bind=?:preview(echo '$HELP')"
 
     # old fzf
     if (($fzf_ver < 30)); then
@@ -87,6 +94,15 @@ EOF
       color=''
       header="--header=Press ? for help; [ $PWD ]"
     fi
+    if (($fzf_ver < 24)); then
+      border=''
+      ctrl_s_preview_window=''
+      ctrl_v_preview_window=''
+      ctrl_u_preview_page_up=''
+      ctrl_d_preview_page_down=''
+      q_help=''
+      header="--header=Recommanded upgrade 'fzf' to > 0.30; [ $PWD ]"
+    fi
 
 		local fzf_args=(
 			+m
@@ -94,20 +110,19 @@ EOF
 			--reverse
 			--nth=9
 			--height=60%
-			--border=top
+      $border
 			$border_label
 
 			--preview=" if [ -f {$ops} ]; then $cat_file {$ops}; else $ls_dir {$ops}; fi "
 			--preview-window="$(cat $TMP_PREVIEW_WINDOW)"
-      $color
+			$color
 
 			--bind='change:top'
-			# show "x -> y" for link file
-			--bind="ctrl-s:change-preview-window(down)+execute(echo $PREVIEW_WINDOW_H>$TMP_PREVIEW_WINDOW)"
-			--bind="ctrl-v:change-preview-window(right)+execute(echo $PREVIEW_WINDOW_V>$TMP_PREVIEW_WINDOW)"
-      $bind_focus_transform_preview_label
-			--bind='ctrl-u:preview-half-page-up'
-			--bind='ctrl-d:preview-half-page-down'
+			$ctrl_s_preview_window
+			$ctrl_v_preview_window
+			$bind_focus_transform_preview_label
+      $ctrl_u_preview_page_up
+      $ctrl_d_preview_page_down
 			--bind='ctrl-f:abort'
 			# go to ..
 			--bind='ctrl-h:execute(echo "//BACK//")+abort'
@@ -117,7 +132,7 @@ EOF
 			--bind='right:accept'
 
 			--bind='ctrl-z:ignore'
-			--bind="?:preview(echo '$HELP')"
+      $q_help
 			$header
 		)
 		local selected=$(eval "$ls_dir" | sed 1,2d | fzf "${fzf_args[@]}")
