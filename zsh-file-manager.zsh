@@ -80,7 +80,7 @@ EOF
 		# show "x -> y" for link file
     local bind_focus_transform_preview_label="--bind=focus:transform-preview-label( echo '|' \$( if [ ! -z {$(($ops + 1))} ]; then echo {$ops} {$(($ops + 1))} {$(($ops + 2))}; else echo {$ops}; fi ) '|' )"
     local color="--color=label:#5555FF:200"
-    local header='--header=Press ? for help'
+    local header="--header=Press ? for help; [ $PWD ]"
 		local ctrl_s_preview_window="--bind=ctrl-s:change-preview-window(down)+execute(echo $PREVIEW_WINDOW_H>$TMP_PREVIEW_WINDOW)"
 		local ctrl_v_preview_window="--bind=ctrl-v:change-preview-window(right)+execute(echo $PREVIEW_WINDOW_V>$TMP_PREVIEW_WINDOW)"
 		local ctrl_u_preview_page_up='--bind=ctrl-u:preview-half-page-up'
@@ -92,7 +92,6 @@ EOF
       border_label=''
       bind_focus_transform_preview_label=''
       color=''
-      header="--header=Press ? for help; [ $PWD ]"
     fi
     if (($fzf_ver < 24)); then
       border=''
