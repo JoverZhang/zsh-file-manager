@@ -93,7 +93,7 @@ EOF
 			--bind="?:preview(echo '$HELP')"
 			--header='Press ? for help'
 		)
-		local selected=$(eval "$ls_dir" | sed 1,2d | $(__fzfcmd) "${fzf_args[@]}")
+		local selected=$(eval "$ls_dir" | sed 1,2d | fzf "${fzf_args[@]}")
 		dbg "selected: $selected"
 
 		# quit
