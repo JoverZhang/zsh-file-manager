@@ -109,7 +109,7 @@ EOF
 			--ansi
 			--reverse
 			--nth=9
-			--height=60%
+			--height=80%
 			$border
 			$border_label
 
