@@ -54,9 +54,9 @@ If "bat" is not installed, it will use "cat" as a fallback.
 
 Focus on directory:
 
-![focus on directory](https://raw.githubusercontent.com/JoverZhang/zsh-file-manager/resources/zsh-file-manager-1.png)
+![focus on directory](https://github.com/JoverZhang/zsh-file-manager/blob/resources/zsh-file-manager-1.png?raw=true)
 
 Focus on file:
 
-![focus on file](https://raw.githubusercontent.com/JoverZhang/zsh-file-manager/resources/zsh-file-manager-2.png)
+![focus on file](https://github.com/JoverZhang/zsh-file-manager/blob/resources/zsh-file-manager-2.png?raw=true)
 
